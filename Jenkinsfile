@@ -11,19 +11,28 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('agandemajesty/django-app:latest')
+                    dockerImage = docker.build("agandemajesty/django-app:latest")
                 }
             }
         }
 
         stage('Push to DockerHub') {
             steps {
-                withDockerRegistry([credentialsId: 'dockerhub-creds1', url: '']) {
-                    script {
-                        docker.image('agandemajesty/django-app:latest').push()
+                script {
+                    docker.withRegistry('', 'dockerhub-creds1') {
+                        dockerImage.push()
                     }
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Build and push successful!'
+        }
+        failure {
+            echo '❌ Build failed!'
         }
     }
 }
