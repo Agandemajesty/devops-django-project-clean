@@ -18,7 +18,7 @@ pipeline {
 
         stage('Push to DockerHub') {
             steps {
-                withDockerRegistry([credentialsId: 'dockerhub-creds', url: '']) {
+                withDockerRegistry([credentialsId: 'dockerhub-creds1', url: '']) {
                     script {
                         docker.image('agandemajesty/django-app:latest').push()
                     }
