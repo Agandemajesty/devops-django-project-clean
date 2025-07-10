@@ -2,11 +2,12 @@ pipeline {
     agent any
 
     stages {
-       stage('Checkout SCM') {
-    steps {
-        checkout scm
+        stage('Checkout SCM') {
+            steps {
+                checkout scm
             }
-       }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -25,3 +26,13 @@ pipeline {
             }
         }
     }
+
+    post {
+        success {
+            echo '✅ Build and push successful!'
+        }
+        failure {
+            echo '❌ Build failed!'
+        }
+    }
+}
