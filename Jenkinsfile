@@ -2,13 +2,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repo') {
-            steps {
-                // This automatically uses the repo that triggered the pipeline
-                checkout scm
+       stage('Checkout SCM') {
+    steps {
+        checkout scm
             }
-        }
-
+       }
         stage('Build Docker Image') {
             steps {
                 script {
