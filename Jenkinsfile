@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/Agandemajesty/devops-django-project.git'
+                // This automatically uses the repo that triggered the pipeline
+                checkout scm
             }
         }
 
