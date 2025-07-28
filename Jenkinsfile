@@ -2,37 +2,22 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout SCM') {
+        stage('Clone repo') {
             steps {
-                checkout scm
+                git 'https://github.com/Agandemajesty/devops-django-project-clean.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    dockerImage = docker.build("agandemajesty/django-app:latest")
-                }
+                sh 'docker-compose build'
             }
         }
 
-        stage('Push to DockerHub') {
+        stage('Run Container') {
             steps {
-                script {
-                    docker.withRegistry('', 'dockerhub-creds1') {
-                        dockerImage.push()
-                    }
-                }
+                sh 'docker-compose up -d'
             }
-        }
-    }
-
-    post {
-        success {
-            echo '✅ Build and push successful!'
-        }
-        failure {
-            echo '❌ Build failed!'
         }
     }
 }
